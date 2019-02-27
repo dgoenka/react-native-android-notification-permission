@@ -39,35 +39,7 @@ public class RNAndroidNotificationPermissionModule extends ReactContextBaseJavaM
 
     @ReactMethod
     public void checkNoticficationPermission(Promise promise) {
-
-        String CHECK_OP_NO_THROW = "checkOpNoThrow";
-        String OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION";
-
-        AppOpsManager mAppOps = (AppOpsManager) reactContext.getSystemService(Context.APP_OPS_SERVICE);
-        ApplicationInfo appInfo = reactContext.getApplicationInfo();
-        String pkg = reactContext.getApplicationContext().getPackageName();
-        int uid = appInfo.uid;
-
-        Class appOpsClass = null;
-        try {
-            appOpsClass = Class.forName(AppOpsManager.class.getName());
-            Method checkOpNoThrowMethod = appOpsClass.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE, String.class);
-            Field opPostNotificationValue = appOpsClass.getDeclaredField(OP_POST_NOTIFICATION);
-
-            int value = (Integer) opPostNotificationValue.get(Integer.class);
-            boolean returnValue = (Integer) checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg) == AppOpsManager.MODE_ALLOWED;
-            promise.resolve(returnValue);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        boolean returnValue = NotificationManagerCompat.from(reactContext).areNotificationsEnabled();
+        promise.resolve(returnValue);
     }
 }
