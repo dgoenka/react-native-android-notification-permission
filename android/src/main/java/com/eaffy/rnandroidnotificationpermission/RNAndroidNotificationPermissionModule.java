@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.support.v7.app.NotificationCompat;
 
 import com.facebook.react.ReactActivity;
 
